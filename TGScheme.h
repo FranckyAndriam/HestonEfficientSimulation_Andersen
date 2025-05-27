@@ -1,36 +1,39 @@
 #ifndef TGSCHEME_H
 #define TGSCHEME_H
 
-#include <cmath>
-#include <vector>
+#include "Variance.h"
 #include <random>
 
-class TGScheme {
+class TGScheme : public Variance {
 public:
-    TGScheme(double kappa, double theta, double epsilon, double dt);
-
-    //Constructeur par recopie
-    TGScheme(const TGScheme& other);
-
-    //Operateur d'affectation
+    TGScheme(double kappa_, double theta_, double epsilon_, double dt_);
+    TGScheme(const TGScheme& other) = default;
     TGScheme& operator=(const TGScheme& other);
+    ~TGScheme() override;
 
-    //Destructeur
-    ~TGScheme();
+    double step(
+        const double& Vt,
+        const double& dt,
+        const double& kappa,
+        const double& theta,
+        const double& epsilon,
+        std::mt19937& rng
+    ) const override;
 
-    // Simule une valeur de variance à t + dt à partir de Vt
-    double simulateNextV(double Vt);
+    TGScheme* clone() const override;
 
 private:
-    double kappa, theta, epsilon, dt;
-    std::mt19937 gen;
-    std::normal_distribution<> norm;
+    double simulateNextV(double Vt) const;
+    double computeMean(double Vt) const;
+    double computeVariance(double Vt) const;
+    double computePsi(double m, double s2) const;
+    double lookup_r(double psi) const;
 
-    double computeMean(double Vt);
-    double computeVariance(double Vt);
-    double computePsi(double m, double s2);
-    double lookup_r(double psi);
-    double standardNormalInverse(double u);
+    mutable std::mt19937 gen;
+    mutable std::normal_distribution<double> norm;
+
+    double kappa, theta, epsilon, dt;
 };
 
 #endif // TGSCHEME_H
+

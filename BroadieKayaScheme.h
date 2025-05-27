@@ -1,39 +1,23 @@
-// BroadieKayaScheme.h
-#ifndef BROADIE_KAYA_SCHEME_H
-#define BROADIE_KAYA_SCHEME_H
+#ifndef BROADIEKAYASCHEME_H
+#define BROADIEKAYASCHEME_H
 
-#include "QEScheme.h"
+#include "Variance.h"
+#include "Model2D.h"
 #include <random>
 #include <utility>
 
-/**
- * Implements one time–step of the Broadie–Kaya scheme for the Heston model.
- * Given (S_t, V_t) it returns (S_{t+dt}, V_{t+dt}) using:
- *   – QE scheme for the variance (Andersen 2008)
- *   – Exact conditional normal law for log–spot as in Broadie & Kaya (2006)
- */
-class BroadieKayaScheme {
+class BroadieKayaScheme : public Model2D {
 public:
+    BroadieKayaScheme(double kappa, double theta, double epsilon, double rho, double r,
+        double gamma1, double gamma2, const Variance* variance_scheme);
 
-    BroadieKayaScheme(double kappa,
-        double theta,
-        double epsilon,
-        double rho,
-        double r,
-        double gamma1 ,
-        double gamma2 ,
-        double psi_c = 1.5);
-
-
-    std::pair<double, double> step(double St,
-        double Vt,
-        double dt,
-        std::mt19937& rng) const;
+    std::pair<double, double> step(double St, double Vt, double dt, std::mt19937& rng) const override;
+    BroadieKayaScheme* clone() const override;
 
 private:
-    double kappa, theta, epsilon, rho, r;
-    double gamma1, gamma2;
-    QEScheme qe_scheme;
+    double kappa, theta, epsilon, rho, r, gamma1, gamma2;
+    const Variance* _variance_scheme; // Non-owning pointer
 };
 
-#endif // BROADIE_KAYA_SCHEME_H
+#endif // BROADIEKAYASCHEME_H
+

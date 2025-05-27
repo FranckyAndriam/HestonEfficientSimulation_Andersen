@@ -1,60 +1,29 @@
 #ifndef QESCHEME_H
 #define QESCHEME_H
 
-#include <random>
+#include "Variance.h"
 
-/**
-* Implements the Quadratic-Exponential (QE) scheme for the variance process in the Heston model.
-* Model parameters (kappa, theta, epsilon) are provided externally by the Broadie Kaya Scheme
-**/
-
-class QEScheme {
+class QEScheme : public Variance {
 public:
-	/*
-	* @param psi_c Threshold for siwtching between quadratic and exponential branches (default 1.5)
-	*/
+    QEScheme(const double& psi_c);
+    QEScheme(const QEScheme& other);
+    QEScheme& operator=(const QEScheme& other);
+    ~QEScheme() override = default;
 
-	explicit QEScheme(const double& psi_c = 1.5);
+    double step(
+        const double& Vt,
+        const double& dt,
+        const double& kappa,
+        const double& theta,
+        const double& epsilon,
+        std::mt19937& rng
+    ) const override;
 
-	/**
-	* Copy constructor
-	*/
-	QEScheme(const QEScheme& other);
-
-	/**
-	* Copy assignement operator
-	*/
-
-	QEScheme& operator=(const QEScheme& other);
-
-	/**
-	* Destructor
-	*/
-	~QEScheme();
-
-	/**
-	* Advance the variance process V from Vt by one time step
-	* @param Vt Current variance
-	* @param dt Time step
-	* @param kappa Mean reversion speed (\kappa)
-	* @param theta Long term mean (\theta)
-	* @param epsilon Volatility of variance process (\epsilon)
-	* @param rng Random number generator
-	* @return Next-step variance V_{t+dt}
-	*/
-
-	double step(
-		const double& Vt,
-		const double& dt,
-		const double& kappa,
-		const double& theta,
-		const double& epsilon,
-		std::mt19937 &rng
-	) const;
+    QEScheme* clone() const override;
 
 private:
-	double psi_c; // Threshold for switching between quadratic and exponential branches
-
+    double psi_c;
 };
-#endif //QESCHEME_H
+
+#endif // QESCHEME_H
 
