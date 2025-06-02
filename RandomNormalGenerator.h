@@ -1,7 +1,7 @@
 #pragma once
 
+#include <cmath>
 #include<random>
-#include <corecrt_math_defines.h>
 #include <cmath>
 
 class StandardGaussianGenerator {
