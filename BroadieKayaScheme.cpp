@@ -1,4 +1,4 @@
-ï»¿#include "BroadieKayaScheme.h"
+#include "BroadieKayaScheme.h"
 #include <cmath>
 
 BroadieKayaScheme::BroadieKayaScheme(double kappa, double theta, double epsilon, double rho, double r,
@@ -15,7 +15,7 @@ BroadieKayaScheme::BroadieKayaScheme(double kappa, double theta, double epsilon,
 
 std::pair<double, double> BroadieKayaScheme::step(double St, double Vt, double dt, std::mt19937& rng) const
 {
-    // On utilise ici le schÃ©ma polymorphe (QE ou TG, etc)
+    // On utilise ici le schéma polymorphe (QE ou TG, etc)
     double V_next = _variance_scheme->step(Vt, dt, kappa, theta, epsilon, rng);
     double V_bar = gamma1 * Vt + gamma2 * V_next;
 
@@ -36,7 +36,7 @@ std::pair<double, double> BroadieKayaScheme::step(double St, double Vt, double d
 }
 
 BroadieKayaScheme* BroadieKayaScheme::clone() const {
-    // Attention: ici, on ne copie pas le schÃ©ma de variance mais juste le pointeurÂ !
+    // Attention: ici, on ne copie pas le schéma de variance mais juste le pointeur !
     // Pour une copie profonde, il faudrait stocker un unique_ptr<Variance> (et cloner dans clone())
     return new BroadieKayaScheme(kappa, theta, epsilon, rho, r, gamma1, gamma2, _variance_scheme);
 }

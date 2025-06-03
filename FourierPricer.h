@@ -32,3 +32,4 @@ private:
 };
 
 #endif // FOURIER_PRICER_H
+

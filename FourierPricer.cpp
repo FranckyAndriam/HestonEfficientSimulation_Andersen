@@ -1,4 +1,5 @@
-﻿#include "FourierPricer.h"
+﻿#define _USE_MATH_DEFINES
+#include "FourierPricer.h"
 #include <cmath>
 #include <complex>
 #include <iostream>

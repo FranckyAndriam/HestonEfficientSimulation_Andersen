@@ -24,3 +24,4 @@ public:
 
 #endif // VARIANCE_H
 
+

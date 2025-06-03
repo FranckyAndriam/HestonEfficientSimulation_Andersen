@@ -1,3 +1,4 @@
+#define _USE_MATH_DEFINES
 #include "TGScheme.h"
 #include <cmath>
 #include <algorithm>

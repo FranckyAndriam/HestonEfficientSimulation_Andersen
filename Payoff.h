@@ -6,8 +6,8 @@
 
 enum class Call_Put
 {
-	Call, 
-    Put   
+	Call,
+	Put
 };
 
 
@@ -44,3 +44,4 @@ private:
 
 
 #endif
+

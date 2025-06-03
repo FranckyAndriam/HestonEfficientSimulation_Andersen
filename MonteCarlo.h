@@ -11,9 +11,6 @@ class Payoff;
 class MonteCarlo
 {
 public:
-    // Pour PathSimulator 1D classique
-    MonteCarlo(const size_t num_sims, const PathSimulator& path_sim, const Payoff& payoff);
-
     // Pour PathSimulator2D (Heston, etc.)
     MonteCarlo(const size_t num_sims, const PathSimulator2D& path_sim2d, const Payoff& payoff);
 
@@ -28,3 +25,4 @@ private:
 };
 
 #endif // MONTECARLO_H
+
